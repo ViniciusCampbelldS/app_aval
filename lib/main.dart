@@ -161,19 +161,9 @@ class _HomeState extends State<Home> {
 				child: Column(
 					children: [
 						Text(
-								'Desenvolvido por Vinicius C. dos Santos\nIcone feito por \"Magnific\" in:',
+								'Desenvolvido por Vinicius C. dos Santos',
 								style: TextStyle(color: Colors.black, fontSize: 18),
 						), // child: Text
-						InkWell(
-							child: Text(
-								'https://www.flaticon.com/free-icons/mathematics',
-								style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-							), // Text
-							onTap: () async {
-								final url = Uri.parse('https://www.flaticon.com/free-icons/mathematics');
-								await launchUrl(url);
-							},
-						) // InkWell
 					], // children
 				), // Column
 			), // child: Container

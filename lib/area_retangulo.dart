@@ -16,37 +16,50 @@ class _AreaRetanguloPageState extends State<AreaRetanguloPage> {
 		];
 	String result = '';
 
+  double? _parseOptionalNumber(String value) {
+	 final text = value.trim();
+	 if (text.isEmpty) return null;
+	 final parsed = double.tryParse(text.replaceAll(',', '.'));
+	 return parsed != null && parsed.isFinite ? parsed : null;
+  }
+
+  String _formatNumber(double value) {
+	 return value.toStringAsFixed(2);
+  }
+
 	void calcularAreaRetangulo() {
-			double? comprimento = double.tryParse(comprimentoController.text.trim()) ?? null;
-			double? largura = double.tryParse(larguraController.text.trim()) ?? null;
+		String comprimentoTexto = comprimentoController.text.trim();
+		String larguraTexto = larguraController.text.trim();
 
-		if (largura == null &&
-			comprimento == null) {
-				setState(() {
-					result = 'Por favor, entre números válidos en todos os campos.';
-				});
-			return;
-		} // if (sem input)
+		double? comprimento = _parseOptionalNumber(comprimentoTexto);
+		double? largura = _parseOptionalNumber(larguraTexto);
 
-		if (comprimento! <= 0 || largura! <= 0) {
+		if (comprimentoTexto.isEmpty && larguraTexto.isEmpty) {
 			setState(() {
-				result = 'O comprimento e a largura devem ser maiores que zero.';
+					result = 'Por favor, preencha pelo menos um campo.';
 			});
 			return;
-		} // if - negativo
-		
+		}
+
+		if ((comprimentoTexto.isNotEmpty && comprimento == null) ||
+			(larguraTexto.isNotEmpty && largura == null)) {
+			setState(() {
+					result = 'Por favor, insira números válidos.';
+			});
+			return;
+		}
+
 		setState(() {
-			if (largura == null ||
-			comprimento == null) {
-				if (comprimento == null) {
-					result = 'Área do QUADRADO: ${largura * largura}';
-				} else {
-					result = 'Área do QUADRADO: ${comprimento * comprimento}';
-				} // else
+			if (comprimento == null) {
+					result = 'Área do QUADRADO: ${_formatNumber(largura! * largura)}';
+			} else if (largura == null) {
+					result = 'Área do QUADRADO: ${_formatNumber(comprimento * comprimento)}';
+			} else if (comprimento == largura) {
+					result = 'Área do QUADRADO: ${_formatNumber(comprimento * largura)}';
 			} else {
-				result = 'Área do retângulo: ${comprimento * largura}';
-			} // else
-		}); // setState
+					result = 'Área do retângulo: ${_formatNumber(comprimento * largura)}';
+			}
+		});
 	} // calcularAreaRetangulo
 
 	@override
@@ -113,31 +126,21 @@ class _AreaRetanguloPageState extends State<AreaRetanguloPage> {
 									// Equivalente a um item de <ul> (com marcador de bolinha)
 									Row(
 										children: [
-										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,info[0], style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text('• ', textAlign: TextAlign.left, style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(info[0], textAlign: TextAlign.left,style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 									SizedBox(height: 8),
 									Row(
 										children: [
-										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,info[1], style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text('• ', textAlign: TextAlign.left, style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(info[1], textAlign: TextAlign.left,style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 								], // children
 							), // Column
-							Expanded(
-							child: buildInputField(
-									'Comprimento',
-									comprimentoController,
-								), // buildInputField
-							), // Expanded
-							Expanded(
-								child: buildInputField(
-								'Largura',
-								larguraController,
-								),
-							),
+							buildInputField('Comprimento', comprimentoController),
+							buildInputField('Largura', larguraController),
 							const SizedBox(height: 20),
 							Padding(
 							padding: const EdgeInsets.all(8.0),
@@ -153,14 +156,23 @@ class _AreaRetanguloPageState extends State<AreaRetanguloPage> {
 							), // SizedBox
 						), // Padding
 						const SizedBox(height: 20),
-						Text(
+						if (result.isNotEmpty)
+							Container(
+								padding: const EdgeInsets.all(16),
+								decoration: BoxDecoration(
+								border: Border.all(color: Colors.cyan),
+								borderRadius: BorderRadius.circular(10),
+								),
+								child: Text(
 								result,
 								textAlign: TextAlign.center,
 								style: const TextStyle(
 									fontSize: 20,
 									fontWeight: FontWeight.bold,
+									color: Colors.white,
 								), // TextStyle
-							), // Text
+								), // Text
+							), // Container
 						], // children
 					), // Column
 				), // SingleChildScrollView

@@ -69,7 +69,7 @@ class _VelMediaPageState extends State<VelMediaPage> {
 		  result += '\nO sinal negativo indica deslocamento no sentido oposto.';
 		}
 	 });
-		double velMedia = (posicaoFinal - posicaoInicial) / (tempoFinal - tempoInicial);
+		double velMedia = (posicaoFinal! - posicaoInicial) / (tempoFinal! - tempoInicial);
 		
 		setState(() {
 			result = 'Velocidade média: ${velMedia.toStringAsFixed(2)} m/s';
@@ -87,17 +87,6 @@ class _VelMediaPageState extends State<VelMediaPage> {
 		}
 
 	} // _calcularVelMedia
-
-	void _swapControllers(
-		TextEditingController first,
-		TextEditingController second,
-	) {
-		setState(() {
-			final temporary = first.text;
-			first.text = second.text;
-			second.text = temporary;
-		});
-	}
 
 	@override
 	void dispose() {
