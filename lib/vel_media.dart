@@ -119,25 +119,26 @@ class _VelMediaPageState extends State<VelMediaPage> {
 							Column(
 								crossAxisAlignment: CrossAxisAlignment.center,
 								children: [
+									Icon(Icons.speed, size: 120, color: Colors.cyan),
 									// Equivalente a um item de <ul> (com marcador de bolinha)
 									Row(
 										children: [
 										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[0]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(textAlign: TextAlign.left,info[0], style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 									SizedBox(height: 8),
 									Row(
 										children: [
 										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[1]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(textAlign: TextAlign.left,info[1], style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 									SizedBox(height: 8),
 									Row(
 										children: [
 										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[2]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(textAlign: TextAlign.left,info[2], style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 								], // children
@@ -212,7 +213,7 @@ class _VelMediaPageState extends State<VelMediaPage> {
 								style: ElevatedButton.styleFrom(
 									backgroundColor: const Color.fromARGB(255, 15, 130, 35),
 								),
-								child: const Text('Calcular Velocidade Média', style: TextStyle(fontSize: 20, color: Colors.black),),
+								child: const Text('Calcular Velocidade Média', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
 							),	// ElevatedButton
 							), // SizedBox
 						), // Padding

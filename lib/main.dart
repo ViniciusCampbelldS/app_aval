@@ -32,6 +32,7 @@ class _HomeState extends State<Home> {
 			backgroundColor: Colors.black,
 			// opções de menu superior
 			drawer: Drawer (
+				backgroundColor: Colors.black,
 				child: ListView(
 					children:[
 						DrawerHeader(
@@ -41,18 +42,18 @@ class _HomeState extends State<Home> {
 							child: Text(
 								'Menu',
 								style: TextStyle(
-									color: Colors.cyan,
+									color: Colors.black,
 									fontSize: 24,
 									fontWeight: FontWeight.bold,
 								), // TextStyle
 							), // Text
 						), // DrawerHeader
 						ListTile(
-							trailing:Icon(
-								Icons.add_box_sharp,
-								color: Colors.white
-							), // Icon
-							title: Text('Operações Básicas'),
+							trailing:Icon(Icons.add_box_sharp, color: Colors.cyan,),
+							title: Text(
+								'Operações Básicas',
+								style: TextStyle(color: Colors.white,),
+							),
 							onTap: () {
 								Navigator.push(
 									context,
@@ -61,8 +62,11 @@ class _HomeState extends State<Home> {
 							}, // onTap 
 						), // ListTitle
 						ListTile(
-							trailing:Icon(Icons.airplay_sharp, color: Colors.white),
-							title: Text('Área do retângulo'),
+							trailing:Icon(Icons.airplay_sharp, color: Colors.cyan),
+							title: Text(
+								'Área do retângulo',
+								style: TextStyle(color: Colors.white,),
+							),
 							onTap: () {
 							Navigator.push( 
 								context,
@@ -71,8 +75,11 @@ class _HomeState extends State<Home> {
 							} // onTap
 						), // ListTitle
 						ListTile(
-							trailing:Icon(Icons.speed, color: Colors.white),
-							title: Text('Velocidade média'),
+							trailing:Icon(Icons.speed, color: Colors.cyan),
+							title: Text(
+								'Velocidade média',
+								style: TextStyle(color: Colors.white,),
+							),
 							onTap: () {
 							Navigator.push( 
 									context,
@@ -83,37 +90,6 @@ class _HomeState extends State<Home> {
 					] // children
 				) // child: ListView
 			), // Drawer
-			body: Column (
-				children: [
-					Text(
-						'Cálculo das quatro operações básicas com dois números decimais.',
-						textAlign: TextAlign.center,
-						style: TextStyle(
-							fontSize: 24,
-							color: Colors.cyan,
-							fontWeight: FontWeight.bold,
-						), // TextStyle
-					), // text
-					Text(
-						'Cálculo da velocidade média a partir da posição e tempo inícial e final, ou apenas.',
-						textAlign: TextAlign.center,
-						style: TextStyle(
-							fontSize: 24,
-							color: Colors.cyan,
-							fontWeight: FontWeight.bold,
-						), // TextStyle
-					), // text
-					Text(
-						'Cálculo da área de um retângulo ou quadrado.',
-						textAlign: TextAlign.center,
-						style: TextStyle(
-							fontSize: 24,
-							color: Colors.cyan,
-							fontWeight: FontWeight.bold,
-						), // TextStyle
-					), // text
-				], // Column
-			), // body: Center
 			appBar: AppBar(
 				backgroundColor: Colors.cyan,
 				centerTitle: true,
@@ -130,19 +106,63 @@ class _HomeState extends State<Home> {
 					), // TextStyle
 				), // Text
 			), // AppBar
+			body: Center(
+				child: Column(
+					mainAxisAlignment: MainAxisAlignment.center,
+					crossAxisAlignment: CrossAxisAlignment.center,
+					children: [
+						Text(
+							'\n1. Cálculo das quatro operações básicas com dois números decimais ou inteiros.',
+							textAlign: TextAlign.left,
+							style: TextStyle(
+								fontSize: 28,
+								color: Colors.cyan,
+							), // TextStyle
+						), // text
+						Text(
+							'\n2. Cálculo da velocidade média a partir dos dados final e inicial (Xf - Xi), ou apenas variação (ΔX) de posição e tempo.',
+							textAlign: TextAlign.left,
+							style: TextStyle(
+								fontSize: 28,
+								color: Colors.cyan,
+							), // TextStyle
+						), // text
+						Text(
+							'\n3. Cálculo da área de um retângulo ou quadrado. A partir dos comprimentos dos lados.\n',
+							textAlign: TextAlign.left,
+							style: TextStyle(
+								fontSize: 28,
+								color: Colors.cyan,
+							), // TextStyle
+						), // text
+					], // Column
+				), // Column
+			), // body: Center
 			bottomNavigationBar: BottomAppBar(
 				padding: EdgeInsets.all(0),
 				child: Container(
 				height: 30,
 				color: Colors.cyan,
-				child: Center(
-					child: Text(
-							'Desenvolvido por Vinicius C. dos Santos',
-							style: TextStyle(color: Colors.black, fontSize: 18),
-						), // child: Text
-					), // child: Center
+				child: Column(
+					children: [
+						Text(
+								'Desenvolvido por Vinicius C. dos Santos\nIcone feito por \"Magnific\" in:',
+								style: TextStyle(color: Colors.black, fontSize: 18),
+							), // child: Text
+						InkWell(
+							child: Text(
+									'<https://www.flaticon.com/free-icons/mathematics</a>',
+									style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+								),
+								onTap: () async {
+									final url = Uri.parse('https://www.flaticon.com/free-icons/mathematics');
+									await launchUrl(url);
+								},
+							)
+						], // children
+					), // Column
 				), // child: Container
 			), // BottomAppBar
-		); // return Scaffold(
-	}// build (){
+		); // return Scaffold
+	} // build
 } // _HomeState

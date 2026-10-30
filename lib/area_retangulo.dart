@@ -8,64 +8,51 @@ class AreaRetanguloPage extends StatefulWidget {
 }
 
 class _AreaRetanguloPageState extends State<AreaRetanguloPage> {
-final TextEditingController posicaoInicialController = TextEditingController();
-	final TextEditingController posicaoFinalController = TextEditingController();
-	final TextEditingController tempoInicialController = TextEditingController();
-	final TextEditingController tempoFinalController = TextEditingController();
+	final TextEditingController comprimentoController = TextEditingController();
+	final TextEditingController larguraController = TextEditingController();
 	final List<String> info = [
-		'Deixe os campos iniciais em branco caso já tenha a diferença, ou caso o inicial seja zero.',
-		'A unidade de medida depende da unidade dos dados fornecidos.',
-		'A velocidade é negativa se a posição final for menor ou igual à posição inicial.'
+		'Insira o comprimento dos lados do retângulo.',
+		'Para calcular a área do quadrado, deixe um dos campos em branco.',
 		];
 	String result = '';
 
-	void calcularVelMedia() {
-			double posicaoInicial = double.tryParse(posicaoInicialController.text.trim()) ?? 0;
-			double? posicaoFinal = double.tryParse(posicaoFinalController.text.trim());
-			double tempoInicial = double.tryParse(tempoInicialController.text.trim()) ?? 0;
-			double? tempoFinal = double.tryParse(tempoFinalController.text.trim());
+	void calcularAreaRetangulo() {
+			double? comprimento = double.tryParse(comprimentoController.text.trim()) ?? null;
+			double? largura = double.tryParse(larguraController.text.trim()) ?? null;
 
-		if (
-			posicaoFinal == null ||
-			tempoFinal == null) {
+		if (largura == null &&
+			comprimento == null) {
 				setState(() {
 					result = 'Por favor, entre números válidos en todos os campos.';
 				});
 			return;
-		} // if (invalid input)
+		} // if (sem input)
 
-		if (tempoFinal <= tempoInicial) {
+		if (comprimento! <= 0 || largura! <= 0) {
 			setState(() {
-				result = 'O tempo final deve ser maior que o tempo inicial. O botão ↔ inverte os valores.';
+				result = 'O comprimento e a largura devem ser maiores que zero.';
 			});
 			return;
-		} // if (tempoFinal <= tempoInicial)
-		
-		double velMedia = (posicaoFinal - posicaoInicial) / (tempoFinal - tempoInicial);
+		} // if - negativo
 		
 		setState(() {
-			result = 'Velocidade média: ${velMedia.toStringAsFixed(2)} m/s';
+			if (largura == null ||
+			comprimento == null) {
+				if (comprimento == null) {
+					result = 'Área do QUADRADO: ${largura * largura}';
+				} else {
+					result = 'Área do QUADRADO: ${comprimento * comprimento}';
+				} // else
+			} else {
+				result = 'Área do retângulo: ${comprimento * largura}';
+			} // else
 		}); // setState
-		
-		if (posicaoFinal <= posicaoInicial) {
-			setState(() {
-				result = 'Velocidade média: ${velMedia.toStringAsFixed(2)} m/s\nA velocidade negativa indica direção oposta ao movimento.';
-			});
-			return;
-		} else{
-			setState(() {
-				result = 'Velocidade média: ${velMedia.toStringAsFixed(2)} m/s';
-			});
-		}
-
-	} // calculatevelMedia
+	} // calcularAreaRetangulo
 
 	@override
 	void dispose() {
-		posicaoInicialController.dispose();
-		posicaoFinalController.dispose();
-		tempoInicialController.dispose();
-		tempoFinalController.dispose();
+		comprimentoController.dispose();
+		larguraController.dispose();
 		super.dispose();
 	} // dispose
 
@@ -103,7 +90,7 @@ final TextEditingController posicaoInicialController = TextEditingController();
 					color: Colors.black,
 				), // IconThemeData
 				title: const Text(
-						'Calculadora de Velocidade Média',
+						'Calculadora de Área do Retângulo',
 						style: TextStyle(
 							fontSize: 22,
 							color: Colors.black,
@@ -119,6 +106,7 @@ final TextEditingController posicaoInicialController = TextEditingController();
 						mainAxisAlignment: MainAxisAlignment.start,
 						crossAxisAlignment: CrossAxisAlignment.center,
 						children: [
+							Icon(Icons.airplay_sharp, size: 120, color: Colors.cyan),
 							Column(
 								crossAxisAlignment: CrossAxisAlignment.center,
 								children: [
@@ -126,96 +114,41 @@ final TextEditingController posicaoInicialController = TextEditingController();
 									Row(
 										children: [
 										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[0]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(textAlign: TextAlign.left,info[0], style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 									SizedBox(height: 8),
 									Row(
 										children: [
 										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[1]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										],
-									), // Row
-									SizedBox(height: 8),
-									Row(
-										children: [
-										Text(textAlign: TextAlign.left,'• ', style: const TextStyle(fontSize: 18, color: Colors.white),),
-										Text(textAlign: TextAlign.left,'${info[2]}', style: const TextStyle(fontSize: 18, color: Colors.white),),
+										Text(textAlign: TextAlign.left,info[1], style: const TextStyle(fontSize: 18, color: Colors.white),),
 										],
 									), // Row
 								], // children
 							), // Column
-							Row(
-							children: [
-								Expanded(
-									child: buildInputField(
-									'Posição inicial',
-									posicaoInicialController,
-									), // buildInputField
-								), // Expanded
-								IconButton(
-									icon: const Icon(
-										Icons.swap_horiz,
-										color: Colors.white,
-									), // Icon
-									tooltip: 'Trocar posições',
-									onPressed: () {
-									setState(() {
-										final temp = posicaoInicialController.text;
-										posicaoInicialController.text = posicaoFinalController.text;
-										posicaoFinalController.text = temp;
-									}); // setState
-									}, // onPressed
-								), // IconButton
-								Expanded(
-									child: buildInputField(
-									'Posição final ou a variação da posição',
-									posicaoFinalController,
-									),
-								), // Expanded
-							], // children
-						), // Row
-						Row(
-							children: [
-								Expanded(
-									child: buildInputField(
-									'Tempo inicial',
-									tempoInicialController,
-									),
+							Expanded(
+							child: buildInputField(
+									'Comprimento',
+									comprimentoController,
+								), // buildInputField
+							), // Expanded
+							Expanded(
+								child: buildInputField(
+								'Largura',
+								larguraController,
 								),
-								IconButton(
-									icon: const Icon(
-										Icons.swap_horiz,
-										color: Colors.white,
-									), // Icon
-									tooltip: 'Trocar tempos',
-									onPressed: () {
-										setState(() {
-											final temp = tempoInicialController.text;
-											tempoInicialController.text = tempoFinalController.text;
-											tempoFinalController.text = temp;
-										}); // setState
-									}, // onPressed
-								), // IconButton
-								Expanded(
-									child: buildInputField(
-										'Tempo final ou variação de tempo',
-										tempoFinalController,
-									),
-								), // Expanded
-							], // children
-						), // Row
-						const SizedBox(height: 20),
-						Padding(
+							),
+							const SizedBox(height: 20),
+							Padding(
 							padding: const EdgeInsets.all(8.0),
 							child: SizedBox(
 								height: 50,
 								child: ElevatedButton(
-								onPressed: calcularVelMedia,
+								onPressed: calcularAreaRetangulo,
 								style: ElevatedButton.styleFrom(
 									backgroundColor: const Color.fromARGB(255, 15, 130, 35),
 								),
-								child: const Text('Calcular Velocidade Média', style: TextStyle(fontSize: 20, color: Colors.black),),
+								child: const Text('Calcular Área do retângulo', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
 							),	// ElevatedButton
 							), // SizedBox
 						), // Padding

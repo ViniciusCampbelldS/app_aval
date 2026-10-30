@@ -12,38 +12,37 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
   TextEditingController num1Controller = TextEditingController();
   TextEditingController num2Controller = TextEditingController();
   // variável para o resultado da operação
-  String _infoText = 'Informe dois numeros e selecione a operação.';
+  final String _infoText = 'Informe dois numeros e selecione a operação.';
   // função para resetar os campos de texto e a variável de resultado
   void _resetFields() {
 	 num1Controller.text = '';
 	 num2Controller.text = '';
-	 setState(() {
-		_infoText = 'Informe dois numeros e selecione a operação.';
-	 });
+	 setState(() {});
   } // _resetFields
 
-  void _calculate() {
-	 setState(() {
-		double num1 = double.tryParse(num1Controller.text) ?? 0;
-		double num2 = double.tryParse(num2Controller.text) ?? 0;
-		double? result = null;
-		String operation = '';
-		switch (operation){
-			case '+':
-				result = num1 + num2;
-				break;
-			case '-':
-				result = num1 - num2;
-				break;
-			case '*':
-				result = num1 * num2;
-				break;
-			case '/':
-				result = num1 / num2;
-				break;
-	} // switch (operation)
-	 }); // setState
-  } // _calculate
+	void _calculate() {
+		setState(() {
+			double num1 = double.tryParse(num1Controller.text) ?? 0;
+			double num2 = double.tryParse(num2Controller.text) ?? 0;
+			double? result;
+			String operation = '';
+			switch (operation){
+				case '+':
+					result = num1 + num2;
+					break;
+				case '-':
+					result = num1 - num2;
+					break;
+				case '*':
+					result = num1 * num2;
+					break;
+				case '/':
+					result = num1 / num2;
+					break;
+			} // switch (operation)
+		}); // setState
+	} // _calculate
+	
 	@override
 	void dispose() {
 		num1Controller.dispose();
@@ -53,7 +52,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 
 	@override
 	Widget build(BuildContext context) {
-		return  Scaffold( // build
+		return  Scaffold(
 			backgroundColor: Colors.black,
 			appBar: AppBar(
 				backgroundColor: Colors.cyan,
@@ -80,7 +79,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 				child: Column(
 					crossAxisAlignment: CrossAxisAlignment.stretch,
 					children: [
-						Icon(Icons.person_outline, size: 120, color: Colors.cyan),
+						Icon(Icons.add_box_sharp, size: 120, color: Colors.cyan),
 						TextField(
 							keyboardType: TextInputType.number,
 							textAlign: TextAlign.center,
@@ -90,7 +89,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 							), // TextStyle
 							// decoração do campo de texto
 							decoration: InputDecoration(
-								labelText: 'Peso (kg)',
+								labelText: 'Primeiro número (Dividendo/Subtraendo)',
 								labelStyle: TextStyle(color:  Colors.white),
 							), // decoration: InputDecoration(
 							controller: num1Controller,
@@ -102,7 +101,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 							style: TextStyle(color: Colors.white, fontSize: 25),
 							// decoração do campo de texto
 							decoration: InputDecoration(
-								labelText: 'Altura (cm)',
+								labelText: 'Segundo número (Divisor/Minuendo)',
 								labelStyle: TextStyle(color: Colors.white),
 							), // decoration: InputDecoration
 							controller: num2Controller,
@@ -116,7 +115,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 									onPressed: _calculate,
 									// ignore: sort_child_properties_last
 									child: Text(
-										'Calcular ',
+										'Calcular',
 										style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
 									), // Text
 									style: ElevatedButton.styleFrom(
