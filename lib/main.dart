@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'area_retangulo.dart';
 import 'calculadora.dart';
 import 'vel_media.dart';
 
 void main() {
-	runApp(
-		MaterialApp(
-			theme: ThemeData(
+  runApp(const CalculoNaMaoApp());
+}
+
+class CalculoNaMaoApp extends StatelessWidget {
+  const CalculoNaMaoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+	 return MaterialApp(
+		title: 'Cálculo na mão.APK',
+		theme: ThemeData(
 			appBarTheme: const AppBarTheme(
 					// Define a cor dos ícones do AppBar para todo o app
 					iconTheme: IconThemeData(color: Colors.cyan),
 				), // AppBarTheme
 			), // ThemeData
-			home: Home(),
-			debugShowCheckedModeBanner: false
-		)
-	);
+		home: Home(),
+		debugShowCheckedModeBanner: false,
+	 );
+  }
 }
 
 class Home extends StatefulWidget {
 	const Home({super.key});
-	
+
+	void _openPage(BuildContext context, Widget page) {
+  		Navigator.pop(context);
+		Navigator.push(
+			context,
+			MaterialPageRoute<void>(builder: (_) => page),
+		);
+  }
+  
 	@override
 	State<Home> createState() => _HomeState();
 }
@@ -36,9 +53,7 @@ class _HomeState extends State<Home> {
 				child: ListView(
 					children:[
 						DrawerHeader(
-							decoration: BoxDecoration(
-								color: Colors.cyan,
-							), // decoration: BoxDecoration
+							decoration: BoxDecoration(color: Colors.cyan,),
 							child: Text(
 								'Menu',
 								style: TextStyle(
@@ -148,21 +163,21 @@ class _HomeState extends State<Home> {
 						Text(
 								'Desenvolvido por Vinicius C. dos Santos\nIcone feito por \"Magnific\" in:',
 								style: TextStyle(color: Colors.black, fontSize: 18),
-							), // child: Text
+						), // child: Text
 						InkWell(
 							child: Text(
-									'<https://www.flaticon.com/free-icons/mathematics</a>',
-									style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-								),
-								onTap: () async {
-									final url = Uri.parse('https://www.flaticon.com/free-icons/mathematics');
-									await launchUrl(url);
-								},
-							)
-						], // children
-					), // Column
-				), // child: Container
-			), // BottomAppBar
-		); // return Scaffold
-	} // build
+								'https://www.flaticon.com/free-icons/mathematics',
+								style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+							), // Text
+							onTap: () async {
+								final url = Uri.parse('https://www.flaticon.com/free-icons/mathematics');
+								await launchUrl(url);
+							},
+						) // InkWell
+					], // children
+				), // Column
+			), // child: Container
+		), // BottomAppBar
+	); // return Scaffold
+} // build
 } // _HomeState
